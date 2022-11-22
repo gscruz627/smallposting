@@ -7,7 +7,10 @@ const nunjucks = require("nunjucks");
 const users = require("./routes/users");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+require("./routes/local");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: true} ));
@@ -27,5 +30,7 @@ nunjucks.configure('views',{
 })
 
 app.use('/', home);
+
 app.use("/users/", users)
+
 app.listen(8000);

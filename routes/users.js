@@ -3,8 +3,11 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const { json } = require("express/lib/response");
+const passport = require("passport");
+require("./local")
+const LocalStrategy = require('passport-local').Strategy;
 
-router.get("/register/", (req, res) => { res.send("wooking")})
+router.get("/register/", (req, res) => { res.send("working")})
 router.post("/register/", async (req, res) => {
     try{
 
@@ -22,7 +25,27 @@ router.post("/register/", async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
+router.get("/login", (req, res) => {
+    res.render("login.html", {layout:"layout.html"})
+})
+
+router.post('/login', passport.authenticate('local', {
+    failureRedirect: '/users/login',
+    successRedirect: '/'
+    
+}, (err, user, options) => {
+    console.log(options) // options will be the complete object you pass in done()
+}));
+
+/*
+router.post("/login", passport.authenticate('local', ) => {
+    try{
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/checkingfailure',
+    })
+} catch(err) { res.status(400); res.json({error:err})}
+     if passport doesn't work
     try{
         const user = await User.findOne({username:req.body.username});
         if (user){
@@ -41,5 +64,6 @@ router.post("/login", async (req, res) => {
         res.status(400);
         res.json({message: err})
     }
-})
+    
+})*/
 module.exports = router;
