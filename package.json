@@ -1,7 +1,6 @@
 {
   "name": "smallpostnew",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,10 +8,27 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "dotenv-flow": "^3.2.0",
     "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
     "nunjucks": "^3.2.3"
-  }
+  },
+  "devDependencies": {
+    "npm-autoinstaller": "^1.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gscruz627/smallposting.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/gscruz627/smallposting/issues"
+  },
+  "homepage": "https://github.com/gscruz627/smallposting#readme",
+  "description": ""
 }

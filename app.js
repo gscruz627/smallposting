@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
-const User = require("./models/User");
 const connection = require("./config/db");
 const home = require('./routes/home');
 const nunjucks = require("nunjucks");
+const users = require("./routes/users");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const bodyParser = require("body-parser")
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded( {extended: true} ));
+app.use(cors());
 
 
 mongoose.connection.once('open', () => {
@@ -20,4 +27,5 @@ nunjucks.configure('views',{
 })
 
 app.use('/', home);
+app.use("/users/", users)
 app.listen(8000);
