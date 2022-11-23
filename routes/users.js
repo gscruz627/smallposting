@@ -2,6 +2,14 @@ const User = require("../models/User");
 const passport = require("passport");
 const router = require("./home");
 
+
+router.get("/register", (req, res) => {
+    res.render("register.html", {layout:"layout.html"})
+})
+
+router.get("/login", (req, res) => {
+    res.render("login.html", {layout: "layout.html"});
+})
 router.post("/register", (req, res, next) => {
     try{
         User.register(new User({
@@ -72,6 +80,7 @@ router.post('/logout', (req, res, next) => {
                 res.json({
                     message: 'You are succesfully logged out'
                 })
+                res.redirect("/");
             }
         })
     } else {

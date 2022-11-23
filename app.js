@@ -6,27 +6,36 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const express = require("express");
 const app = express();
-
+const User = require("./models/User")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: true} ));
 const connection = require("./config/db");
 const home = require('./routes/home');
+const posts = require('./routes/posts');
 const nunjucks = require("nunjucks");
 const users = require("./routes/users");
 const cors = require("cors");
-require("./routes/local");
-var session = require('express-session');
+const session = require('express-session');
 
 
 app.use(cors());
+
+//before 
 app.use(session({
     name: 'session-id',
     secret: '123-456-789',
     saveUninitialized: false,
     resave: false
   }));
-  app.use(passport.initialize());
-  app.use(passport.session());
+
+app.use(passport.initialize());
+passport.use(User.createStrategy());
+
+app.use(passport.session());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 mongoose.connection.once('open', () => {
     console.log("DB connected succesfully");
 });
@@ -39,8 +48,12 @@ nunjucks.configure('views',{
     express:app
 })
 
+app.get("/aa", (req, res) => {
+    console.log(req.user);
+})
 app.use('/', home);
 
-app.use("/users/", users)
+app.use("/users/", users);
+app.use("/posts/", posts);
 
 app.listen(8000);

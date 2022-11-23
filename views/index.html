@@ -3,7 +3,12 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<p>b</p>
-<a href="/users/login">login</a>
-<a href="/users/register">register</a>
+<div class="centered">
+    <h1>SmallPosting</h1>
+    {% if req.user %}
+        <p>Logged in as {{ req.user.username }}</p>
+    {% else %}
+        <p>Not logged in</p>
+    {% endif %}
+</div>
 {% endblock content %}

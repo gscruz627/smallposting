@@ -5,7 +5,8 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 
 router.get("/", (req, res) => {
-    res.render("index.html", { layout: "layout.html"});
+    console.log(req.user + "HOME ---------------------------");
+    res.render("index.html", { layout: "layout.html", req: req});
 })
 
 module.exports = router;
