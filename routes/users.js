@@ -1,4 +1,87 @@
-const express = require("express");
+const User = require("../models/User");
+const passport = require("passport");
+const router = require("./home");
+
+router.post("/register", (req, res, next) => {
+    try{
+        User.register(new User({
+            username: req.body.username
+        }),
+        req.body.password, (err, currentUser) => {
+            if(err){
+                res.status(400);
+                res.setHeader('Content-Type', 'application/json');
+                res.json({
+                    err:err
+                });
+            } else{
+                passport.authenticate('local')(req, res, () => {
+                    User.findOne({
+                        username:req.body.username
+                    }, (err, currentUser) => {
+                        res.status(200);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({
+                            success:true,
+                            status: "Registration Succesful",
+                        });
+                    });
+                });
+            }
+        })
+    } catch(err){
+        res.status(400);
+        res.setHeader('Content-Type', 'application/json');
+        res.json({
+            err:err,
+            status:"Error from Initialization"
+        })
+    }
+});
+
+router.post('/login', passport.authenticate('local'), (req, res) => {
+    User.findOne({
+        username: req.body.username
+    }, (err, currentUser) => {
+        if(err){
+            res.status(400);
+            res.setHeader('Content-Type', 'application/json');
+            res.json({
+                err:err,
+                status:"Invalid Error or Password"
+            })
+        } else {
+            res.status(200);
+            res.setHeader('Content-Type', 'application/json');
+            res.json({
+                success:true,
+                status:"Succesfully logged in"
+            })
+        }
+    })
+});
+
+router.post('/logout', (req, res, next) => {
+    if(req.session){
+        req.logout();
+        req.session.destroy((err) =>{
+            if(err){
+                console.log(err);
+            } else {
+                res.clearCookie('sesion-id');
+                res.json({
+                    message: 'You are succesfully logged out'
+                })
+            }
+        })
+    } else {
+        const err = new Error("You are not logged in");
+        err.status(403);
+        next(err);
+    }
+})
+
+/*const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
@@ -9,6 +92,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 router.get("/register/", (req, res) => { res.send("working")})
 router.post("/register/", async (req, res) => {
+    User.
     try{
 
         const encryptedPassword = await bcrypt.hash(req.body.password, 8);
@@ -25,7 +109,7 @@ router.post("/register/", async (req, res) => {
     }
 })
 
-router.get("/login", (req, res) => {
+router.get("/login", (req, res, next) => {
     res.render("login.html", {layout:"layout.html"})
 })
 
@@ -33,8 +117,6 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/users/login',
     successRedirect: '/'
     
-}, (err, user, options) => {
-    console.log(options) // options will be the complete object you pass in done()
 }));
 
 /*
