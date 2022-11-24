@@ -5,15 +5,18 @@
 {% block content %}
 <div class="centered" style="width:500px; margin: 125px auto 0 auto">
     <form action="/users/register" method="POST">
+        {% if error %}
+            <p class="message-error">NOTE: {{ error }}</p>
+        {% endif %}
         <h1>Register a new user</h1><br>
 
         <label for="username">Username: </label>
-        <input type="text" id="username" name="username"/><br>
+        <input type="text" id="username" name="username" required pattern=".{4,}"/><br>
 
         <label for="password">Password: </label>
-        <input type="password" id="password" name="password"/><br>
+        <input type="password" id="password" name="password" required/><br>
 
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
     </form>
 </div>
 {% endblock content %}
