@@ -1,0 +1,20 @@
+{% extends './layout.html' %}
+
+{% block title %} SmallPosting - All Posts {% endblock title %}
+
+{% block content %}
+
+<div class="centered" style="width:700px; margin: 100px auto">
+    <div>
+    <h1>All Posts</h1>
+    <ul class="posts">
+    {% for post in posts | reverse %}
+        <li class="post">
+            <h4 style="display:inline-block">{{ post.username}}</h4> &nbsp; <small>posted at {{ post.createdAt }}</small>
+            <p style="margin-top:15px">{{ post.text }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock content %}

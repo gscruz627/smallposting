@@ -3,12 +3,14 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<div class="centered">
+<div class="centered" style="margin-top:150px;">
+    <div>
     <h1>SmallPosting</h1>
     {% if req.user %}
         <p>Logged in as {{ req.user.username }}</p>
     {% else %}
         <p>Not logged in</p>
     {% endif %}
+    </div>
 </div>
 {% endblock content %}

@@ -5,18 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
-    <link href="generals.css" rel="stylesheet" type="text/css">
+    <link href="/static/generals.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/posts/list">All Posts</a></li>
-            <li><a href="/users/login">Login</a></li>
-            <li><a href="/users/register">Register</a></li>
+            <li><a href="/posts/all">All Posts</a></li>
+            {% if req.user %}
+                <li><a href="/posts/new" style="text-decoration:underline"><b>NEW POST</b></a></li>
+                <li><p>&#9865; {{ req.user.username }}</p></li>
+                <li><form action="/users/logout" method="POST"><button class="link-submit" type="submit">Logout</button></form></li>
+            {% else %}
+                <li><a href="/users/login">Login</a></li>
+                <li><a href="/users/register">Register</a></li>
+            {% endif %}
         </ul>
     </nav>
     {% block content %}
     {% endblock content %}
+    <footer style="padding: 0 0 15px 15px; position:absolute">
+        <small>Created by Gustavo L. Nov 2022, MIT Licence (Open Source)</small>
+    </footer>
+    <script>{}</script>
 </body>
 </html>

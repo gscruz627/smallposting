@@ -40,9 +40,11 @@ mongoose.connection.once('open', () => {
     console.log("DB connected succesfully");
 });
 
-app.use(express.static('static'))
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'static')))
+
 app.set("view engine", "html");
-app.set("views", "./views");
+app.set("views", path.join(__dirname, 'views'));
 nunjucks.configure('views',{
     autoescape:true,
     express:app

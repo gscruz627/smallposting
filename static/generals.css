@@ -8,9 +8,20 @@ a{
     text-decoration:none;
     color:black;
 }
-body{
-    margin:2em;
+ul, li{
+    list-style-type:none;
+    margin:0; padding:0;
 }
+small{
+    color:dimgray;
+}
+body {
+    overflow-y: scroll;
+    padding: 0;
+    width: 100%;
+    margin-top:2rem;
+    height:100%;
+  }
 nav ul{
     display:inline-block;
     text-align:center;
@@ -22,9 +33,40 @@ nav li{
     margin: auto 1em;
     text-align:center;
 }
-div.centered{
+.centered{
     display:flex;
     justify-content: center;
-    text-align:center;
-    height:100%;
+    align-items: center;
+}
+form label{
+    font-size:24px;
+    margin: 20px 0;
+    display:block;
+}
+form input{
+    width:100%;
+    height:26px;
+    font-size:20px;
+}
+form button{
+    width:50%;
+    height:30px;
+    font-size:16px;
+    margin-left:24%;
+    margin-top:20px;
+}
+button.link-submit{
+    background-color:transparent;
+    cursor:pointer;
+    color:black;
+    outline:none;
+    border:none;
+}
+.posts{
+    margin: 35px auto;
+}
+.posts .post{
+    margin: 30px auto;
+    padding-bottom:10px;
+    border-bottom:1px solid dimgray;
 }

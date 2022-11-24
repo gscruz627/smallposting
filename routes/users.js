@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const passport = require("passport");
 const router = require("./home");
+const { isloggedin } = require("./local");
 
 
 router.get("/register", (req, res) => {
@@ -27,12 +28,7 @@ router.post("/register", (req, res, next) => {
                     User.findOne({
                         username:req.body.username
                     }, (err, currentUser) => {
-                        res.status(200);
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json({
-                            success:true,
-                            status: "Registration Succesful",
-                        });
+                        res.redirect('/')
                     });
                 });
             }
@@ -60,35 +56,35 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
             })
         } else {
             res.status(200);
-            res.setHeader('Content-Type', 'application/json');
-            res.json({
-                success:true,
-                status:"Succesfully logged in"
-            })
+            res.redirect("/")
         }
     })
 });
 
-router.post('/logout', (req, res, next) => {
+router.post('/logout', isloggedin, (req, res, next) => {
     if(req.session){
-        req.logout();
         req.session.destroy((err) =>{
             if(err){
                 console.log(err);
             } else {
                 res.clearCookie('sesion-id');
-                res.json({
-                    message: 'You are succesfully logged out'
-                })
+                req.logout(() => {});
                 res.redirect("/");
             }
         })
     } else {
         const err = new Error("You are not logged in");
         err.status(403);
-        next(err);
+        res.redirect("/");
     }
 })
+/*
+router.post("/logout", (req, res) => {
+    req.logout(req.user, err => {
+      if(err) return next(err);
+      res.redirect("/");
+    });
+  });
 
 /*const express = require("express");
 const router = express.Router();
